@@ -30,8 +30,6 @@ RUN apt-get update \
     build-essential \
     && pip3 install -r /jenkins-executor/marathon-lb/requirements.txt
 
-COPY ./bin/config /jenkins-executor/config/
-
 WORKDIR /jenkins-executor
 
 RUN apt-get install -y python-pip \
