@@ -1,0 +1,52 @@
+Description:
+    Administer and manage DCOS cluster nodes.
+
+Usage:
+    dcos node --info
+    dcos node [--json]
+    dcos node log [--follow --lines=N --leader --master --mesos-id=<mesos-id> --slave=<slave-id>]
+    dcos node ssh [--option SSHOPT=VAL ...]
+                  [--config-file=<path>]
+                  [--user=<user>]
+                  [--master-proxy]
+                  (--leader | --master | --mesos-id=<mesos-id> | --slave=<slave-id>)
+
+Commands:
+    log
+        Prints the Mesos logs for the leading master node, agent nodes, or both.
+    ssh
+        Establish an SSH connection to the master or agent nodes of your DCOS
+        cluster.
+
+Options:
+    --config-file=<path>
+        Path to SSH configuration file.
+    --follow
+        Dynamically update the log.
+    -h, --help
+        Show this screen.
+    --info
+        Show a short description of this subcommand.
+    --json
+        Print JSON-formatted list of nodes.
+    --leader
+        The leading master.
+    --lines=N
+        Print the last N lines, where 10 is the default.
+    --master
+        Deprecated. Please use --leader.
+    --master-proxy
+        Proxy the SSH connection through a master node. This can be useful when
+        accessing DCOS from a separate network. For example, in the default AWS
+        configuration, the private slaves are unreachable from the public
+        internet. You can access them using this option, which will first hop
+        from the publicly available master.
+    --option SSHOPT=VAL
+        The SSH options. For information, enter `man ssh_config` in your
+        terminal.
+    --slave=<agent-id>
+        Agent node with the provided ID.
+    --user=<user>
+        The SSH user, where the default user [default: core].
+    --version
+        Print version information.

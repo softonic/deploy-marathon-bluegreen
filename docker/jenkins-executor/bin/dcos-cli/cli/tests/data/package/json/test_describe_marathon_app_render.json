@@ -1,0 +1,48 @@
+{
+  "cmd": "LIBPROCESS_PORT=$PORT1 && ./bin/start --master zk://master.mesos:2181/mesos    --checkpoint   --decline_offer_duration 5000    --http_port $PORT0      --event_stream_max_outstanding_messages 50     --failover_timeout 604800   --framework_name marathon-user   --ha      --leader_proxy_connection_timeout 5000   --leader_proxy_read_timeout 10000   --local_port_max 20000   --local_port_min 10000    --marathon_store_timeout 2000   --max_tasks_per_offer 1   --max_tasks_per_offer_cycle 1000     --min_revive_offers_interval 5000     --revive_offers_for_new_apps   --scale_apps_initial_delay 15000   --scale_apps_interval 300000    --zk_session_timeout 1800000   --zk zk://master.mesos:2181/universe  --mesos_leader_ui_url /mesos   --zk_compression   --zk_compression_threshold 65536 ",
+  "constraints": [
+    [
+      "hostname",
+      "UNIQUE"
+    ]
+  ],
+  "container": {
+    "docker": {
+      "image": "docker.io/mesosphere/marathon:v0.11.1",
+      "network": "HOST"
+    },
+    "type": "DOCKER"
+  },
+  "cpus": 2,
+  "env": {
+    "JVM_OPTS": "-Xms256m -Xmx768m"
+  },
+  "healthChecks": [
+    {
+      "gracePeriodSeconds": 120,
+      "intervalSeconds": 10,
+      "maxConsecutiveFailures": 3,
+      "path": "/v2/info",
+      "portIndex": 0,
+      "protocol": "HTTP",
+      "timeoutSeconds": 5
+    }
+  ],
+  "id": "marathon-user",
+  "instances": 1,
+  "labels": {
+    "DCOS_PACKAGE_IS_FRAMEWORK": "true",
+    "DCOS_PACKAGE_METADATA": "eyJsaWNlbnNlcyI6W3sibmFtZSI6IkFwYWNoZSBMaWNlbnNlIFZlcnNpb24gMi4wIiwidXJsIjoiaHR0cHM6Ly9naXRodWIuY29tL21lc29zcGhlcmUvbWFyYXRob24vYmxvYi9tYXN0ZXIvTElDRU5TRSJ9XSwibmFtZSI6Im1hcmF0aG9uIiwicG9zdEluc3RhbGxOb3RlcyI6Ik1hcmF0aG9uIERDT1MgU2VydmljZSBoYXMgYmVlbiBzdWNjZXNzZnVsbHkgaW5zdGFsbGVkIVxuXG5cdERvY3VtZW50YXRpb246IGh0dHBzOi8vbWVzb3NwaGVyZS5naXRodWIuaW8vbWFyYXRob25cblx0SXNzdWVzOiBodHRwczovZ2l0aHViLmNvbS9tZXNvc3BoZXJlL21hcmF0aG9uL2lzc3Vlc1xuIiwic2NtIjoiaHR0cHM6Ly9naXRodWIuY29tL21lc29zcGhlcmUvbWFyYXRob24uZ2l0IiwiZGVzY3JpcHRpb24iOiJBIGNsdXN0ZXItd2lkZSBpbml0IGFuZCBjb250cm9sIHN5c3RlbSBmb3Igc2VydmljZXMgaW4gY2dyb3VwcyBvciBEb2NrZXIgY29udGFpbmVycy4iLCJwYWNrYWdpbmdWZXJzaW9uIjoiMi4wIiwidGFncyI6WyJpbml0IiwibG9uZy1ydW5uaW5nIl0sInBvc3RVbmluc3RhbGxOb3RlcyI6IlRoZSBNYXJhdGhvbiBEQ09TIFNlcnZpY2UgaGFzIGJlZW4gdW5pbnN0YWxsZWQgYW5kIHdpbGwgbm8gbG9uZ2VyIHJ1bi5cblBsZWFzZSBmb2xsb3cgdGhlIGluc3RydWN0aW9ucyBhdCBodHRwOi8vZG9jcy5tZXNvc3BoZXJlLmNvbS9zZXJ2aWNlcy9tYXJhdGhvbi8jdW5pbnN0YWxsIHRvIGNsZWFuIHVwIGFueSBwZXJzaXN0ZWQgc3RhdGUiLCJtYWludGFpbmVyIjoic3VwcG9ydEBtZXNvc3BoZXJlLmlvIiwiZnJhbWV3b3JrIjp0cnVlLCJ2ZXJzaW9uIjoiMC4xMS4xIiwicHJlSW5zdGFsbE5vdGVzIjoiV2UgcmVjb21tZW5kIGEgbWluaW11bSBvZiBvbmUgbm9kZSB3aXRoIGF0IGxlYXN0IDIgQ1BVJ3MgYW5kIDFHQiBvZiBSQU0gYXZhaWxhYmxlIGZvciB0aGUgTWFyYXRob24gU2VydmljZS4iLCJpbWFnZXMiOnsiaWNvbi1zbWFsbCI6Imh0dHBzOi8vZG93bmxvYWRzLm1lc29zcGhlcmUuY29tL21hcmF0aG9uL2Fzc2V0cy9pY29uLXNlcnZpY2UtbWFyYXRob24tc21hbGwucG5nIiwiaWNvbi1tZWRpdW0iOiJodHRwczovL2Rvd25sb2Fkcy5tZXNvc3BoZXJlLmNvbS9tYXJhdGhvbi9hc3NldHMvaWNvbi1zZXJ2aWNlLW1hcmF0aG9uLW1lZGl1bS5wbmciLCJpY29uLWxhcmdlIjoiaHR0cHM6Ly9kb3dubG9hZHMubWVzb3NwaGVyZS5jb20vbWFyYXRob24vYXNzZXRzL2ljb24tc2VydmljZS1tYXJhdGhvbi1sYXJnZS5wbmciLCJzY3JlZW5zaG90cyI6bnVsbH19",
+    "DCOS_PACKAGE_NAME": "marathon",
+    "DCOS_PACKAGE_REGISTRY_VERSION": "2.0",
+    "DCOS_PACKAGE_RELEASE": "0",
+    "DCOS_PACKAGE_SOURCE": "https://github.com/mesosphere/universe/archive/cli-test-4.zip",
+    "DCOS_PACKAGE_VERSION": "0.11.1"
+  },
+  "mem": 1024,
+  "ports": [
+    0,
+    0
+  ],
+  "uris": []
+}

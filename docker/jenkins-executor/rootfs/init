@@ -1,0 +1,18 @@
+#!/bin/sh
+
+#------------------------------------------------------------------------------
+# Configure the service:
+#------------------------------------------------------------------------------
+
+[ -z "${MARATHON_URL}" ] && echo 'Ops! MARATHON_URL is not set' && exit 1
+[ -z "${MESOS_MASTER_URL}" ] && echo 'Ops! MESOS_MASTER_URL is not set' && exit 1
+
+dcos config set core.mesos_master_url $MESOS_MASTER_URL
+dcos config set marathon.url $MARATHON_URL
+
+while [ $# -gt 0 ]; do
+  COMMAND="$COMMAND $1"
+  shift
+done
+
+$COMMAND
