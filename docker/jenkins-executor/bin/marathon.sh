@@ -1,5 +1,18 @@
 #!/bin/bash
 
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+  DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+done
+DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+cd $DIR
+
+[ $# -lt 1 ] && echo "Usage: $0 <deploy|destroy>" && exit 1
+command="${1#*=}"
+shift
+
 while [ $# -gt 0 ]; do
   case "$1" in
 
@@ -22,8 +35,8 @@ done
 if [[ -z ${ENV+x} ]]; then
     ENV=prod
 fi
-[ -f $WORKSPACE/config/env.$ENV ] && source $WORKSPACE/config/env.$ENV || exit 1
-[ -f $WORKSPACE/src/deploy.sh ] && source $WORKSPACE/src/deploy.sh || exit 1
+[ -f $DIR/config/env.$ENV ] && source $DIR/config/env.$ENV || exit 1
+[ -f $DIR/src/deploy.sh ] && source $DIR/src/deploy.sh || exit 1
 
 if [[ -n "${VERSION+1}" ]]; then
     PROJECT_VERSION=$VERSION
