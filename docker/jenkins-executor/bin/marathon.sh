@@ -45,6 +45,7 @@ fi
 case ${command} in
 
     deploy)
+        echo "deploying ${PROJECT_GROUP}/${PROJECT_NAME} v$PROJECT_VERSION"
         deploy
     ;;
 

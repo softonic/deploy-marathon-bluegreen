@@ -10,9 +10,4 @@
 dcos config set core.mesos_master_url $MESOS_MASTER_URL
 dcos config set marathon.url $MARATHON_URL
 
-while [ $# -gt 0 ]; do
-  COMMAND="$COMMAND $1"
-  shift
-done
-
-$COMMAND
+command "$@"
