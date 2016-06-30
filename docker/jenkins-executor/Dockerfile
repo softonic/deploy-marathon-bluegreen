@@ -3,7 +3,7 @@ FROM debian:stretch
 MAINTAINER Daniel Ibáñez Fernández <daniel.ibanez@softonic.com>
 
 
-ADD ./docker/jenkins-executor/bin /jenkins-executor
+ADD ./bin /jenkins-executor
 
 RUN ln -snf /bin/bash /bin/sh
 
@@ -52,7 +52,7 @@ ENV MARATHON_URL "http://master-1.cell-1.dub.softonic.one:8080"
 RUN dcos config set core.mesos_master_url $MESOS_MASTER_URL \
     && dcos config set marathon.url $MARATHON_URL
 
-ADD ./docker/jenkins-executor/rootfs /
+ADD ./rootfs /
 
 ENTRYPOINT ["/init"]
 
