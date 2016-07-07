@@ -43,7 +43,6 @@ PROJECT_COMPONENTS=( <component1> <component2> <component3> )
 : ${LATEST:='<boolean>'}
 : ${TEMP_FOLDER:="tmp"}
 : ${BLUE_GREEN_CONTAINER:="<component_blue-green>"}
-: ${DOCKER_FOLDER:="workspace/docker"}
 
 ```
 

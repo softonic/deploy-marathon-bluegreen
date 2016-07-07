@@ -9,7 +9,6 @@
 [ -z "${PROJECT_GROUP}" ] && echo 'Ops! PROJECT_GROUP is not set' && exit 1
 [ -z "${PROJECT_VERSION}" ] && echo 'Ops! PROJECT_VERSION is not set' && exit 1
 [ -z "${MARATHON_URL}" ] && echo 'Ops! MARATHON_URL is not set' && exit 1
-[ -z "${DOCKER_FOLDER}" ] && echo 'Ops! DOCKER_FOLDER is not set' && exit 1
 [ -z "${TEMP_FOLDER}" ] && echo 'Ops! TEMP_FOLDER is not set' && exit 1
 
 [ -d $TEMP_FOLDER ] || mkdir $TEMP_FOLDER
@@ -59,7 +58,7 @@ function compose_json {
 }
 
 function env_var {
-    eval echo $(cat ${DOCKER_FOLDER}/${i}/marathon.json | sed 's/"/\\"/g')
+    eval echo $(cat workspace/docker/${i}/marathon.json | sed 's/"/\\"/g')
 
 }
 
@@ -86,7 +85,7 @@ function deployed_version {
     | select(.[] != \"$PROJECT_GROUP/$PROJECT_NAME/$PROJECT_VERSION\")[]"
 }
 
-function deploy_internal_stack {
+function xdeploy_internal_stack {
     dcos marathon group add $MARATHON_TEMP_PATH
 }
 
