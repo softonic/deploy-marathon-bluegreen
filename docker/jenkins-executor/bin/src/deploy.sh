@@ -85,7 +85,7 @@ function deployed_version {
     | select(.[] != \"$PROJECT_GROUP/$PROJECT_NAME/$PROJECT_VERSION\")[]"
 }
 
-function xdeploy_internal_stack {
+function deploy_internal_stack {
     dcos marathon group add $MARATHON_TEMP_PATH
 }
 
