@@ -2,7 +2,6 @@ FROM debian:stretch
 
 MAINTAINER Daniel Ibáñez Fernández <daniel.ibanez@softonic.com>
 
-
 ADD ./bin /jenkins-executor
 
 RUN ln -snf /bin/bash /bin/sh
@@ -48,6 +47,13 @@ RUN apt-get remove -yf wget libssl-dev build-essential libpcre3-dev libreadline-
 ENV PATH "/jenkins-executor/dcos-cli/cli/env/bin:$PATH"
 ENV MESOS_MASTER_URL "http://master-1.cell-1.dub.softonic.one:5050"
 ENV MARATHON_URL "http://master-1.cell-1.dub.softonic.one:8080"
+
+RUN mv dcos-cli dcos-install \
+    && mkdir dcos-cli \
+    && mv dcos-install/cli/ dcos-cli/cli \
+    && mv dcos-install/dcos/ dcos-cli/dcos \
+    && mv dcos-install/dcos.egg-info dcos-cli/dcos.egg-info \
+    && rm -rf dcos-install
 
 RUN dcos config set core.mesos_master_url $MESOS_MASTER_URL \
     && dcos config set marathon.url $MARATHON_URL
