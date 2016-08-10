@@ -35,12 +35,13 @@ done
 if [[ -z ${ENV+x} ]]; then
     ENV=prod
 fi
-[ -f $DIR/config/env.$ENV ] && source $DIR/config/env.$ENV || exit 1
-[ -f $DIR/src/deploy.sh ] && source $DIR/src/deploy.sh || exit 1
 
 if [[ -n "${VERSION+1}" ]]; then
     PROJECT_VERSION=$VERSION
 fi
+
+[ -f $DIR/config/env.$ENV ] && source $DIR/config/env.$ENV || exit 1
+[ -f $DIR/src/deploy.sh ] && source $DIR/src/deploy.sh || exit 1
 
 case ${command} in
 
