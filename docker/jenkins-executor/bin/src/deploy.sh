@@ -27,15 +27,14 @@ function compose_json {
 
     # JSON header:
     echo '{'
-    echo "  \"id\": \"$PROJECT_GROUP/$PROJECT_NAME/$PROJECT_VERSION\","
-    echo "  \"labels\": {\"HAPROXY_DEPLOYMENT_GROUP\":\"${PROJECT_GROUP}_${PROJECT_NAME}_${ENV}\"},"
+    echo "  \"id\": \"$PROJECT_GROUP/$PROJECT_NAME/$ENV/$PROJECT_VERSION\","
     echo '    "apps": ['
     for i in ${PROJECT_COMPONENTS[@]}; do
 
         # Deployed container with zdd script should be outside marathon.json deployment.
         if [[ $i = $BLUE_GREEN_CONTAINER ]]; then
             COUNT=$((COUNT-1))
-            env_var | jq ".id |= \"/${PROJECT_GROUP}/${PROJECT_NAME}/${PROJECT_VERSION}/${i}\"" \
+            env_var | jq ".id |= \"/${PROJECT_GROUP}/${PROJECT_NAME}/${ENV}/${PROJECT_VERSION}/${i}\"" \
                 > $TEMP_FOLDER/marathon-blue.${i}.json
         else
             VERSION=$(cat $TEMP_FOLDER/current-version.json | sed 's/"//g')
@@ -67,7 +66,7 @@ function env_var {
 #------------------------------------------------------------------------------
 
 function deploy {
-    echo "Deploying /$PROJECT_GROUP/$PROJECT_NAME/$PROJECT_VERSION/..."
+    echo "Deploying /$PROJECT_GROUP/$PROJECT_NAME/$ENV/$PROJECT_VERSION/..."
     deployed_version > $TEMP_FOLDER/current-version.json
     compose_json > $MARATHON_TEMP_PATH
     cat $MARATHON_TEMP_PATH | jq .
@@ -92,12 +91,12 @@ function deploy_internal_stack {
 function wait_until_internal_stack_deployed {
     for i in ${PROJECT_COMPONENTS[@]}; do
         if [ ! $i = $BLUE_GREEN_CONTAINER ]; then
-            echo "Waiting until /$PROJECT_GROUP/$PROJECT_NAME/$PROJECT_VERSION/$i stack is healthy "
-            while [ -z "$(dcos marathon app show /$PROJECT_GROUP/$PROJECT_NAME/$PROJECT_VERSION/$i | jq '.tasks[]?.healthCheckResults[]? | select (.alive == true)')" ]
+            echo "Waiting until /$PROJECT_GROUP/$PROJECT_NAME/$ENV/$PROJECT_VERSION/$i stack is healthy "
+            while [ -z "$(dcos marathon app show /$PROJECT_GROUP/$PROJECT_NAME/$ENV/$PROJECT_VERSION/$i | jq '.tasks[]?.healthCheckResults[]? | select (.alive == true)')" ]
             do
                 sleep 1
             done
-            echo "/$PROJECT_GROUP/$PROJECT_NAME/$PROJECT_VERSION/$i is healthy"
+            echo "/$PROJECT_GROUP/$PROJECT_NAME/$ENV/$PROJECT_VERSION/$i is healthy"
         fi
     done
 }
