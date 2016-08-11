@@ -81,8 +81,8 @@ function deploy {
 function deployed_version {
     dcos marathon group list --json \
     | jq ".[]?.groups[]?.groups[]? \
-    | [select(.apps[].labels.stack_environment == \"$PROJECT_GROUP/$PROJECT_NAME/$ENV\").apps[].labels.stack_version]|unique \
-    | select(.[] != \"$PROJECT_GROUP/$PROJECT_NAME/$PROJECT_VERSION\")[]"
+    | [select(.apps[].labels.stack_environment == \"$PROJECT_GROUP/$PROJECT_NAME/$ENV/$PROJECT_VERSION\").apps[].labels.stack_version]|unique \
+    | select(.[] != \"$PROJECT_GROUP/$PROJECT_NAME/$ENV/$PROJECT_VERSION\")[]"
 }
 
 function deploy_internal_stack {

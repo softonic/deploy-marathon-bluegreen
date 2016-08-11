@@ -60,9 +60,9 @@ Example of Non Blue-green php-fpm marathon.json
   "backoffFactor": 1.15,
   "maxLaunchDelaySeconds": 3600,
   "labels": {
-    "HAPROXY_GROUP": "${PROJECT_GROUP}_${PROJECT_NAME}_php-fpm_${PROJECT_VERSION}",
-    "stack_environment": "${PROJECT_GROUP}/${PROJECT_NAME}/${ENV}",
-    "stack_version": "${PROJECT_GROUP}/${PROJECT_NAME}/${PROJECT_VERSION}"
+    "HAPROXY_GROUP": "${PROJECT_GROUP}_${PROJECT_NAME}_php-fpm_${ENV}_${PROJECT_VERSION}",
+    "stack_environment": "${PROJECT_GROUP}/${PROJECT_NAME}/${ENV}/${PROJECT_VERSION}",
+    "stack_version": "${PROJECT_GROUP}/${PROJECT_NAME}/${ENV}/${PROJECT_VERSION}"
   },
   "container": {
     "type": "DOCKER",
@@ -119,8 +119,8 @@ Example of Non Blue-green haproxy-php marathon.json
   "labels": {
     "owner": "api",
     "note": "Api user nginx",
-    "stack_environment": "${PROJECT_GROUP}/${PROJECT_NAME}/${ENV}",
-    "stack_version": "${PROJECT_GROUP}/${PROJECT_NAME}/${PROJECT_VERSION}",
+    "stack_environment": "${PROJECT_GROUP}/${PROJECT_NAME}/${ENV}/${PROJECT_VERSION}",
+    "stack_version": "${PROJECT_GROUP}/${PROJECT_NAME}/${ENV}/${PROJECT_VERSION}",
     "HAPROXY_0_BACKEND_HTTP_OPTIONS": "http-response add-header X-Via %[env\(HOSTNAME\)]"
   },
   "container": {
@@ -179,8 +179,8 @@ Example of Blue-green marathon.json
     "HAPROXY_0_VHOST": "v1.users.sftapi.com",
     "HAPROXY_DEPLOYMENT_GROUP": "${PROJECT_GROUP}_${PROJECT_NAME}_${ENV}",
     "HAPROXY_DEPLOYMENT_ALT_PORT":"10051",
-    "stack_environment": "${PROJECT_GROUP}/${PROJECT_NAME}/${ENV}",
-    "stack_version": "${PROJECT_GROUP}/${PROJECT_NAME}/${PROJECT_VERSION}"
+    "stack_environment": "${PROJECT_GROUP}/${PROJECT_NAME}/${ENV}/${PROJECT_VERSION}",
+    "stack_version": "${PROJECT_GROUP}/${PROJECT_NAME}/${ENV}/${PROJECT_VERSION}"
   },
   "container": {
     "type": "DOCKER",
