@@ -23,7 +23,8 @@ MARATHON_TEMP_PATH="$TEMP_FOLDER/marathon.json"
 
 function compose_json {
 
-    COUNT=${#PROJECT_COMPONENTS[@]-1}
+    TOTAL=${#PROJECT_COMPONENTS[@]}
+    COUNT=0
 
     # JSON header:
     echo '{'
@@ -33,7 +34,6 @@ function compose_json {
 
         # Deployed container with zdd script should be outside marathon.json deployment.
         if [[ $i = $BLUE_GREEN_CONTAINER ]]; then
-            COUNT=$((COUNT-1))
             env_var | jq ".id |= \"/${PROJECT_GROUP}/${PROJECT_NAME}/${ENV}/${PROJECT_VERSION}/${i}\"" \
                 > $TEMP_FOLDER/marathon-blue.${i}.json
         else
@@ -44,11 +44,11 @@ function compose_json {
             else
                 env_var | jq .instances=$INSTANCES
             fi
-            [ ${COUNT} -gt 1 ] && {
+            [ ${COUNT} -lt $((TOTAL-1)) ] && [ $BLUE_GREEN_CONTAINER != ${PROJECT_COMPONENTS[$((COUNT+1))]} ]&& {
               echo -n ','
-              COUNT=$((COUNT - 1))
             }
         fi
+        COUNT=$((COUNT+1))
     done
 
     # JSON footer:
