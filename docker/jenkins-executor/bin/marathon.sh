@@ -54,7 +54,7 @@ case ${command} in
         read -r -p "Are you sure? [y/N] " response
         if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]
         then
-            dcos marathon group remove /${PROJECT_GROUP}/${PROJECT_NAME}/${PROJECT_VERSION} $FORCE_DELETE
+            dcos marathon group remove /${PROJECT_GROUP}/${PROJECT_NAME}/${ENV}/${PROJECT_VERSION} $FORCE_DELETE
         fi
     ;;
 
