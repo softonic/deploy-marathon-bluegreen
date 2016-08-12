@@ -21,7 +21,7 @@ while [ $# -gt 0 ]; do
        ;;
 
     --version=*)
-      VERSION="${1#*=}"
+      PROJECT_VERSION="${1#*=}"
       ;;
 
     --environment=*)
@@ -37,7 +37,7 @@ if [[ -z ${ENV+x} ]]; then
 fi
 
 if [[ -n "${VERSION+1}" ]]; then
-    PROJECT_VERSION=$VERSION
+    PROJECT_VERSION=$PROJECT_VERSION
 fi
 
 [ -f $DIR/config/env.$ENV ] && source $DIR/config/env.$ENV || exit 1
