@@ -44,9 +44,11 @@ function compose_json {
             else
                 env_var | jq .instances=$INSTANCES
             fi
-            [ ${COUNT} -lt $((TOTAL-1)) ] && [ $BLUE_GREEN_CONTAINER != ${PROJECT_COMPONENTS[$((COUNT+1))]} ]&& {
+            if [[ $BLUE_GREEN_CONTAINER = ${PROJECT_COMPONENTS[$((COUNT+1))]} ]] && [ ${COUNT} = $((TOTAL-2)) ]; then
+              echo -n ''
+            elif [ ${COUNT} != $((TOTAL-1)) ]; then
               echo -n ','
-            }
+            fi
         fi
         COUNT=$((COUNT+1))
     done
